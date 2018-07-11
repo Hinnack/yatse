@@ -177,3 +177,5 @@ LOGGING = {
         },
     }
 }
+
+TICKET_SEARCH_FIELDS = ['caption', 'c_user', 'priority', 'type', 'customer', 'component', 'deadline', 'billing_needed', 'billing_done', 'closed', 'assigned', 'state']

@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),  # NOQA
-    #url(r'^', include('yatse.check.urls')),
+    # url(r'^', include('yatse.check.urls')),
     url(r'^', include('yatse.urls')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
