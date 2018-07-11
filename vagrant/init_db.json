@@ -1,0 +1,45 @@
+[{
+  "model": "yatse.server",
+  "pk": 1,
+  "fields": {
+    "url": "http://192.168.33.11/yatse/",
+    "name": "YATS",
+    "short": "YA",
+    "version": "1",
+    "fields": "[{\"type\": \"AutoField\", \"name\": \"id\", \"label\": \"id\"}, {\"type\": \"BooleanField\", \"name\": \"active_record\", \"label\": \"active_record\"}, {\"type\": \"DateTimeField\", \"name\": \"c_date\", \"label\": \"c_date\"}, {\"options\": [\"admin\"], \"type\": \"select\", \"name\": \"c_user\", \"label\": \"c_user\"}, {\"type\": \"DateTimeField\", \"name\": \"u_date\", \"label\": \"u_date\"}, {\"options\": [\"admin\"], \"type\": \"select\", \"name\": \"u_user\", \"label\": \"u_user\"}, {\"type\": \"DateTimeField\", \"name\": \"d_date\", \"label\": \"d_date\"}, {\"options\": [\"admin\"], \"type\": \"select\", \"name\": \"d_user\", \"label\": \"d_user\"}, {\"type\": \"CharField\", \"name\": \"caption\", \"label\": \"caption\"}, {\"type\": \"TextField\", \"name\": \"description\", \"label\": \"description\"}, {\"options\": [\"undefined\", \"bug\", \"feature request\", \"enhancement\"], \"type\": \"select\", \"name\": \"type\", \"label\": \"type\"}, {\"options\": [\"trivial\", \"minor\", \"major\", \"critical\", \"blocker\"], \"type\": \"select\", \"name\": \"priority\", \"label\": \"priority\"}, {\"options\": [\"Test Company\"], \"type\": \"select\", \"name\": \"customer\", \"label\": \"customer\"}, {\"options\": [\"admin\"], \"type\": \"select\", \"name\": \"assigned\", \"label\": \"assigned\"}, {\"options\": [\"dupplicate\", \"fixed\", \"won't fix\", \"invalid\"], \"type\": \"select\", \"name\": \"resolution\", \"label\": \"resolution\"}, {\"type\": \"BooleanField\", \"name\": \"closed\", \"label\": \"closed\"}, {\"options\": [\"incoming\", \"close\", \"Test\", \"waiting\", \"in progress\", \"release\"], \"type\": \"select\", \"name\": \"state\", \"label\": \"state\"}, {\"type\": \"DateTimeField\", \"name\": \"close_date\", \"label\": \"close_date\"}, {\"type\": \"DateTimeField\", \"name\": \"last_action_date\", \"label\": \"last_action_date\"}, {\"type\": \"OneToOneField\", \"name\": \"tickets_ptr\", \"label\": \"tickets_ptr\"}, {\"options\": [\"Android\"], \"type\": \"select\", \"name\": \"component\", \"label\": \"component\"}, {\"type\": \"CharField\", \"name\": \"version\", \"label\": \"version\"}, {\"type\": \"CharField\", \"name\": \"keywords\", \"label\": \"keywords\"}, {\"type\": \"TextField\", \"name\": \"reproduction\", \"label\": \"reproduction\"}, {\"type\": \"NullBooleanField\", \"name\": \"billing_needed\", \"label\": \"billing_needed\"}, {\"type\": \"NullBooleanField\", \"name\": \"billing_done\", \"label\": \"billing_done\"}, {\"type\": \"TextField\", \"name\": \"billing_reason\", \"label\": \"billing_reason\"}, {\"type\": \"FloatField\", \"name\": \"billing_estimated_time\", \"label\": \"billing_estimated_time\"}, {\"type\": \"FloatField\", \"name\": \"billing_time_taken\", \"label\": \"billing_time_taken\"}, {\"type\": \"CharField\", \"name\": \"billing_type\", \"label\": \"billing_type\"}, {\"type\": \"TextField\", \"name\": \"solution\", \"label\": \"solution\"}, {\"type\": \"CharField\", \"name\": \"fixed_in_version\", \"label\": \"fixed_in_version\"}, {\"type\": \"DateField\", \"name\": \"deadline\", \"label\": \"deadline\"}]"
+  }
+}, {
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "!RXlrLJSSjoVSrs6d7605qKH1CyOQKnCt20pDQnpZ",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "root",
+    "first_name": "",
+    "last_name": "",
+    "email": "root@localhost",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-07-11T14:38:58.238Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}, {
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$36000$xLGn1RiknHPn$Cai9hvO+XgxwAjn+rpPPb5o78+4CfNLeVqC/KYZXBpg=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "develope@mediafactory.de",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-07-11T15:06:24.177Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}]

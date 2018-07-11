@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+    WSGIScriptAlias / /var/web/yatse/web/web/wsgi.py
+    WSGIPassAuthorization on
+    WSGIDaemonProcess yatse_demo.web python-path=/var/web/yatse/web:/vagrant_modules/pysrc threads=1
+    WSGIProcessGroup yatse_demo.web
+
+    <Directory "/var/web/yatse/web/web">
+        AllowOverride AuthConfig
+        <Files "wsgi.py">
+          Order deny,allow
+          Allow from all
+          Require all granted
+        </Files>
+    </Directory>
+
+    <Directory "/var/web/yatse/static">
+        Require all granted
+    </Directory>
+
+    Alias /static /var/web/yatse/static
+    Alias /favicon.ico /var/web/yatse/static/favicon.ico
+
+   CustomLog     /var/log/apache2/yatse-demo-acces.log combined
+   ErrorLog      /var/log/apache2/yatse-demo-error.log
+
+</VirtualHost>

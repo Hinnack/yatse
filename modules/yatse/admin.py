@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+from django.contrib import admin
+from yatse.models import Server
+
+admin.site.register(Server)
