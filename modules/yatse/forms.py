@@ -1,9 +1,39 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.utils.translation import ugettext as _
 from bootstrap_toolkit.widgets import BootstrapDateInput
-from yatse.models import Server
+from yatse.models import Server, boards
 import datetime
 import json
+
+ORDER_BY_CHOICES = (
+    ('id', _('ticket number')),
+    ('close_date', _('closing date')),
+    ('last_action_date', _('last changed'))
+)
+
+ORDER_DIR_CHOICES = (
+    ('', _('ascending')),
+    ('-', _('descending'))
+)
+
+POST_FILTER_CHOICES = (
+    (0, '-------------'),
+    (1, _('days since closed')),
+    (2, _('days since created')),
+    (3, _('days since last changed')),
+    (4, _('days since last action')),
+)
+
+class AddToBordForm(forms.Form):
+    method = forms.CharField(widget=forms.HiddenInput(), initial='add')
+    board = forms.ModelChoiceField(queryset=boards.objects.filter(active_record=True), label=_('board'), empty_label=None)
+    column = forms.CharField(label=_('column'))
+    limit = forms.IntegerField(label=_('limit'), required=False)
+    extra_filter = forms.ChoiceField(choices=POST_FILTER_CHOICES, label=_('extra filter'), required=False)
+    days = forms.IntegerField(label=_('days'), required=False)
+    order_by = forms.ChoiceField(choices=ORDER_BY_CHOICES, label=_('order by'))
+    order_dir = forms.ChoiceField(choices=ORDER_DIR_CHOICES, label=_('order direction'), required=False)
 
 class dynamicForm(forms.Form):
     """

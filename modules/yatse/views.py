@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.conf import settings
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib import messages
 from django import get_version as get_django_version
+from django.utils.translation import ugettext as _
 from yatse.models import tickets_reports
-from yatse.forms import SearchForm
+from yatse.forms import SearchForm, AddToBordForm
+from yatse.models import Server
 from yatse import get_version, get_python_version
+from yatse.shortcuts import clean_search_values
 
+from requests_futures.sessions import FuturesSession
 import datetime
 
 def root(request):
@@ -18,45 +24,33 @@ def info(request):
 
 def table(request, **kwargs):
     search_params = {}
-    mod_path, cls_name = settings.TICKET_CLASS.rsplit('.', 1)
-    mod_path = mod_path.split('.').pop(0)
-    tic = get_model(mod_path, cls_name).objects.select_related('type').all()
-
-    if not request.user.is_staff:
-        tic = tic.filter(customer=request.organisation)
+    tic = []
 
     if 'search' in kwargs:
         is_search = True
         params = kwargs['search']
 
-        if not request.user.is_staff:
-            used_fields = []
-            for ele in settings.TICKET_SEARCH_FIELDS:
-                if not ele in settings.TICKET_NON_PUBLIC_FIELDS:
-                    used_fields.append(ele)
-        else:
-            used_fields = settings.TICKET_SEARCH_FIELDS
-
-        Qr = None
-        fulltext = {}
-        for field in params:
-            if field == 'fulltext':
-                if field in used_fields and get_ticket_model()._meta.get_field(field).get_internal_type() == 'CharField':
-                    fulltext['%s__icontains' % field] = params[field]
-
-            else:
-                if params[field] != None and params[field] != '':
-                    if get_ticket_model()._meta.get_field(field).get_internal_type() == 'CharField':
-                        search_params['%s__icontains' % field] = params[field]
-                    else:
-                        search_params[field] = params[field]
-
-        tic = tic.filter(**search_params)
     else:
-        tic = tic.filter(closed=False)
+        params = {'closed': False}
         is_search = False
 
-    pretty = prettyValues(search_params)
+    session = FuturesSession()
+    async_list = []
+    for Srv in Server.objects.all():
+        url = '%ssearch/?%s' % (Srv.url, 'a=b')
+        # , hooks={'response': do_something}
+        req = session.get(url)
+        setattr(req, 'serverName', Srv.name)
+        async_list.append(req)
+    for req in async_list:
+        try:
+            req = 'response status: {0}'.format(req.result().status_code)
+        except:
+            #req._exception.request.url
+            messages.add_message(request, messages.ERROR, _(u'YATS nicht erreichbar: %s' % req.serverName))
+            req = None
+
+    pretty = search_params
     list_caption = kwargs.get('list_caption')
     if 'report' in request.GET:
         list_caption = tickets_reports.objects.get(pk=request.GET['report']).name
@@ -73,9 +67,9 @@ def table(request, **kwargs):
         tic_lines = paginator.page(paginator.num_pages)
 
     board_form = AddToBordForm()
-    board_form.fields['board'].queryset = board_form.fields['board'].queryset.filter(c_user=request.user)
+    #board_form.fields['board'].queryset = board_form.fields['board'].queryset.filter(c_user=request.user)
 
-    return render_to_response('tickets/list.html', {'lines': tic_lines, 'is_search': is_search, 'pretty': pretty, 'list_caption': list_caption, 'board_form': board_form}, RequestContext(request))
+    return render(request, 'tickets/list.html', {'lines': tic_lines, 'is_search': is_search, 'pretty': pretty, 'list_caption': list_caption, 'board_form': board_form})
 
 def search(request):
     searchable_fields = settings.TICKET_SEARCH_FIELDS
@@ -92,7 +86,7 @@ def search(request):
         return table(request, search=request.session['last_search'], list_caption=request.session['last_search_caption'])
 
     if request.method == 'POST':
-        form = SearchForm(request.POST, include_list=searchable_fields, is_stuff=request.user.is_staff, user=request.user, customer=request.organisation.id)
+        form = SearchForm(request.POST, include_list=searchable_fields, is_stuff=request.user.is_staff)
         form.is_valid()
         request.session['last_search'] = clean_search_values(form.cleaned_data)
         request.session['last_search_caption'] = ''
