@@ -129,15 +129,11 @@ MIDDLEWARE_CLASSES = [
     #'yatse.middleware.header.ResponseInjectHeader',
     #'yatse.middleware.auth.BasicAuthMiddleware',
     #'yatse.middleware.error.ErrorCaptureMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'web.urls'
 
 WSGI_APPLICATION = 'web.wsgi.application'
-
-TEMPLATE_DIRS = (
-)
 
 DEVSERVER_TRUNCATE_SQL = False
 INSTALLED_APPS = (
@@ -149,8 +145,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'yatse',
     'bootstrap_toolkit',
-    'oauth2_provider',
-    'corsheaders',
+    'simple_sso.sso_server',
 )
 
 LOGGING = {
@@ -179,3 +174,5 @@ LOGGING = {
 }
 
 TICKET_SEARCH_FIELDS = ['caption', 'c_user', 'priority', 'type', 'customer', 'component', 'deadline', 'billing_needed', 'billing_done', 'closed', 'assigned', 'state']
+
+LOGIN_URL = '/login/'
