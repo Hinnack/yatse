@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.conf import settings
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -14,14 +15,17 @@ from yatse.shortcuts import clean_search_values
 from requests_futures.sessions import FuturesSession
 import datetime
 
+@login_required
 def root(request):
     return render(request, "home.html", {})
 
+@login_required
 def info(request):
     from socket import gethostname
 
     return render(request, "info.html", {'hostname': gethostname(), 'version': get_version(), 'date': datetime.datetime.now(), 'django': get_django_version(), 'python': get_python_version()})
 
+@login_required
 def table(request, **kwargs):
     search_params = {}
     tic = []
@@ -71,6 +75,7 @@ def table(request, **kwargs):
 
     return render(request, 'tickets/list.html', {'lines': tic_lines, 'is_search': is_search, 'pretty': pretty, 'list_caption': list_caption, 'board_form': board_form})
 
+@login_required
 def search(request):
     searchable_fields = settings.TICKET_SEARCH_FIELDS
 
