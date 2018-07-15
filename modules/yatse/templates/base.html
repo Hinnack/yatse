@@ -29,6 +29,7 @@
     <div class="navbar-inner">
         <div class="container pull-left yats-navi">
             <a class="brand " id="brand" href="/">&nbsp;&nbsp;&nbsp;YATSE:</a>
+            {% if request.user.is_authenticated %}
             <ul class="nav">
             	{% if urlpath %}
             	<li class="dropdown">
@@ -83,8 +84,11 @@
                 <li><a href="/workflow/" class="">{% trans "Workflow" %}</a></li>
                 <li><a href="/info/" class="">{% trans "Info" %}</a></li>
             </ul>
+            {% endif %}
         </div>
+        {% if request.user.is_authenticated %}
         <p class="navbar-text pull-right">{% trans "logged in as" %}: <a data-toggle="modal" href="#pwdDlg">{{ request.user }}@{{ request.organisation.name }}</a>&nbsp;&nbsp;</p>
+        {% endif %}
     </div>
 </div>
 
