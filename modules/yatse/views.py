@@ -41,18 +41,21 @@ def table(request, **kwargs):
     session = FuturesSession()
     async_list = []
     for Srv in Server.objects.all():
-        url = '%ssearch/?%s' % (Srv.url, 'a=b')
+        url = '%yatsee/?%s' % (Srv.url)
         # , hooks={'response': do_something}
-        req = session.get(url)
+        req = session.search(url)
         setattr(req, 'serverName', Srv.name)
         async_list.append(req)
     for req in async_list:
+        result = req.result()
         try:
-            req = 'response status: {0}'.format(req.result().status_code)
+            # aaa = 'response status: {0}'.format(result.status_code)
+            if result.status_code != 200:
+                messages.add_message(request, messages.ERROR, _(u'%s respoded width: %s' % (req.serverName, result.status_code)))
+
         except:
-            #req._exception.request.url
+            # req._exception.request.url
             messages.add_message(request, messages.ERROR, _(u'YATS nicht erreichbar: %s' % req.serverName))
-            req = None
 
     pretty = search_params
     list_caption = kwargs.get('list_caption')
