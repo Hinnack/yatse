@@ -14,6 +14,12 @@ from yatse.shortcuts import clean_search_values
 
 from requests_futures.sessions import FuturesSession
 import datetime
+import dateutil.parser
+
+try:
+    import json
+except ImportError:
+    from django.utils import simplejson as json
 
 @login_required
 def root(request):
@@ -40,21 +46,36 @@ def table(request, **kwargs):
 
     session = FuturesSession()
     async_list = []
+    headers = {
+        'user-agent': 'yatse/0.0.1',
+        'api-key': 'geheim',
+        'api-user': request.user.username
+    }
+    search_data = {}
     for Srv in Server.objects.all():
-        url = '%yatsee/?%s' % (Srv.url)
+        url = '%s/yatse/' % Srv.url
         # , hooks={'response': do_something}
-        req = session.search(url)
+        req = session.request('SEARCH', url, data=json.dumps(search_data), headers=headers)
         setattr(req, 'serverName', Srv.name)
+        setattr(req, 'serverURL', Srv.url)
         async_list.append(req)
+
     for req in async_list:
         result = req.result()
         try:
-            # aaa = 'response status: {0}'.format(result.status_code)
             if result.status_code != 200:
                 messages.add_message(request, messages.ERROR, _(u'%s respoded width: %s' % (req.serverName, result.status_code)))
 
+            else:
+                data = json.loads(result.content)
+                for date in data:
+                    date['YATSServer'] = req.serverName
+                    date['YATSServerURL'] = req.serverURL
+                    date['c_date'] = dateutil.parser.parse(date['c_date'])
+                    #date['daedline'] = dateutil.parser.parse(date['daedline']) if date['daedline'] else None
+                tic = tic + data
+
         except:
-            # req._exception.request.url
             messages.add_message(request, messages.ERROR, _(u'YATS nicht erreichbar: %s' % req.serverName))
 
     pretty = search_params
