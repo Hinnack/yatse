@@ -52,7 +52,7 @@ def table(request, **kwargs):
     async_list = []
     headers = {
         'user-agent': 'yatse/0.0.1',
-        'api-key': 'geheim',
+        'api-key': settings.API_KEY,
         'api-user': request.user.username
     }
     for Srv in Server.objects.all():
