@@ -42,6 +42,7 @@ def table(request, **kwargs):
     if 'search' in kwargs:
         is_search = True
         params = kwargs['search']
+        #raise Exception(params)
 
     else:
         params = {'closed': False}
@@ -54,11 +55,10 @@ def table(request, **kwargs):
         'api-key': 'geheim',
         'api-user': request.user.username
     }
-    search_data = {}
     for Srv in Server.objects.all():
         url = '%s/yatse/' % Srv.url
         # , hooks={'response': do_something}
-        req = session.request('SEARCH', url, data=json.dumps(search_data), headers=headers)
+        req = session.request('SEARCH', url, data=json.dumps(params), headers=headers)
         setattr(req, 'serverName', Srv.name)
         setattr(req, 'serverURL', Srv.url)
         setattr(req, 'serverShortName', Srv.short)
