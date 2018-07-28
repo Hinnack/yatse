@@ -40,6 +40,10 @@ class dynamicForm(forms.Form):
     dynamic fields form
     """
 
+    def __init__(self, *args, **kwargs):
+        self.select_vars = []
+        super(dynamicForm, self).__init__(*args, **kwargs)
+
     def getDefaultDate(self, default):
         if default == 'today':
             return datetime.date.today()
@@ -85,6 +89,7 @@ class dynamicForm(forms.Form):
 
         if fieldtype == 'select':  # select
             field = forms.ChoiceField(choices=options, label=label, required=False)
+            self.select_vars.append(varname)
 
         if fieldtype == 11:  # dateshort
             initial = self.getDefaultDate(initial)
@@ -95,6 +100,15 @@ class dynamicForm(forms.Form):
             self.fields[varname] = field
         else:
             raise Exception('missing field type %s' % fieldtype)
+
+    def clean(self):
+        cleaned_data = super(dynamicForm, self).clean()
+
+        for ele in self.select_vars:
+            if ele in cleaned_data and not cleaned_data[ele]:
+                del cleaned_data[ele]
+
+
 
 class SearchForm(dynamicForm):
     def __init__(self, *args, **kwargs):
@@ -134,6 +148,6 @@ class SearchForm(dynamicForm):
 
             op = [(opt, opt) for opt in options]
             if len(op):
-                op.insert(0, ('aa', '------------'))
+                op.insert(0, ('', '---------'))
 
             self.addField(type, fieldname, label, op)
