@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
-
-import datetime
+from django.utils import timezone
 
 class base(models.Model):
     active_record = models.BooleanField(default=True)
 
     # creation
-    c_date = models.DateTimeField(default=datetime.datetime.now)
+    c_date = models.DateTimeField(default=timezone.now)
     c_user = models.ForeignKey(User, related_name='+')
     # update
-    u_date = models.DateTimeField(default=datetime.datetime.now)
+    u_date = models.DateTimeField(default=timezone.now)
     u_user = models.ForeignKey(User, related_name='+')
     # deletion'
     d_date = models.DateTimeField(null=True)
@@ -31,13 +29,13 @@ class base(models.Model):
             if not self.pk:
                 self.c_user_id = kwargs['user_id']
             del kwargs['user_id']
-        self.u_date = datetime.datetime.now()
+        self.u_date = timezone.now()
         super(base, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         if 'user' not in kwargs and 'user_id' not in kwargs:
             raise Exception('missing user for delete')
-        self.d_date = datetime.datetime.now()
+        self.d_date = timezone.now()
         if 'user' in kwargs:
             self.d_user = kwargs['user']
         if 'user_id' in kwargs:
