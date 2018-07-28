@@ -1,6 +1,7 @@
 - change toolbar in YATS to get back (session.is_using_yats)
 - sort
 - search => select values to number
+- search => mark if field in all avail.
 - save to report => csrf ERROR
 - pretty search values on list
 - field names in search
