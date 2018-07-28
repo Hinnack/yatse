@@ -107,7 +107,7 @@ class dynamicForm(forms.Form):
         for ele in self.select_vars:
             if ele in cleaned_data and not cleaned_data[ele]:
                 del cleaned_data[ele]
-
+        return cleaned_data
 
 
 class SearchForm(dynamicForm):
