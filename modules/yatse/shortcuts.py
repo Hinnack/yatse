@@ -10,3 +10,18 @@ def clean_search_values(search):
         else:
             result[ele] = search[ele]
     return result
+
+def add_breadcrumbs(request, pk, typ):
+    breadcrumbs = request.session.get('breadcrumbs', [])
+    # checks if already exists
+    if len(breadcrumbs) > 0:
+        if breadcrumbs[-1][0] != long(pk) or breadcrumbs[-1][1] != typ:
+            if (long(pk), typ,) in breadcrumbs:
+                breadcrumbs.pop(breadcrumbs.index((long(pk), typ,)))
+            breadcrumbs.append((long(pk), typ,))
+
+    else:
+        breadcrumbs.append((long(pk), typ,))
+    while len(breadcrumbs) > 10:
+        breadcrumbs.pop(0)
+    request.session['breadcrumbs'] = breadcrumbs
