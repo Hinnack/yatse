@@ -3,6 +3,7 @@ from django import forms
 from django.utils.translation import ugettext as _
 from bootstrap_toolkit.widgets import BootstrapDateInput
 from yatse.models import Server, boards
+from yatse.shortcuts import fieldNameToTracName
 import datetime
 import json
 
@@ -128,23 +129,6 @@ class SearchForm(dynamicForm):
 
         self.init()
 
-    def _fieldNameToTracName(self, field):
-        if field == 'c_date':
-            return 'time created'
-        if field == 'c_user':
-            return 'reporter'
-        if field == 'u_date':
-            return 'time changed'
-        if field == 'assigned':
-            return 'owner'
-        if field == 'caption':
-            return 'summary'
-        if field == 'state':
-            return 'status'
-
-        return field.replace('_', ' ')
-
-
     def init(self):
         for fieldname in self.include_list:
             foundInAll = True
@@ -159,7 +143,7 @@ class SearchForm(dynamicForm):
                         found = True
                         type = field['type']
                         options = options + field.get('options', [])
-                        label = self._fieldNameToTracName(fieldname)
+                        label = fieldNameToTracName(fieldname)
                         break
                 if not found:
                     foundInAll = False

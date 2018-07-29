@@ -25,3 +25,29 @@ def add_breadcrumbs(request, pk, typ):
     while len(breadcrumbs) > 10:
         breadcrumbs.pop(0)
     request.session['breadcrumbs'] = breadcrumbs
+
+def fieldNameToTracName(field):
+    if field == 'c_date':
+        return 'time created'
+    if field == 'c_user':
+        return 'reporter'
+    if field == 'u_date':
+        return 'time changed'
+    if field == 'assigned':
+        return 'owner'
+    if field == 'caption':
+        return 'summary'
+    if field == 'state':
+        return 'status'
+
+    return field.replace('_', ' ')
+
+def prettyValues(values):
+    result = {}
+    for field in values:
+        if field == 'caption':
+            if values[field]:
+                result[fieldNameToTracName(field)] = values[field]
+        else:
+            result[fieldNameToTracName(field)] = values[field]
+    return result

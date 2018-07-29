@@ -13,7 +13,7 @@ from yatse.models import tickets_reports
 from yatse.forms import SearchForm, AddToBordForm
 from yatse.models import Server, boards
 from yatse import get_version, get_python_version
-from yatse.shortcuts import clean_search_values, add_breadcrumbs
+from yatse.shortcuts import clean_search_values, add_breadcrumbs, prettyValues
 
 from requests_futures.sessions import FuturesSession
 import datetime
@@ -36,7 +36,6 @@ def info(request):
 
 @login_required
 def table(request, **kwargs):
-    search_params = {}
     tic = []
 
     if 'search' in kwargs:
@@ -82,7 +81,7 @@ def table(request, **kwargs):
         except:
             messages.add_message(request, messages.ERROR, _(u'YATS nicht erreichbar: %s' % req.serverName))
 
-    pretty = search_params
+    pretty = prettyValues(params)
     list_caption = kwargs.get('list_caption')
     if 'report' in request.GET:
         list_caption = tickets_reports.objects.get(pk=request.GET['report']).name
