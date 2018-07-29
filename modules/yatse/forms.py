@@ -89,7 +89,7 @@ class dynamicForm(forms.Form):
             field = forms.CharField(widget=forms.HiddenInput(), label=label, required=False)
 
         if fieldtype == 'select':  # select
-            field = forms.ChoiceField(choices=options, label=label, required=False)
+            field = forms.ChoiceField(widget=forms.Select(attrs={'style': 'font-family: \'FontAwesome\', \'sans-serif\';'}), choices=options, label=label, required=False)
             self.select_vars.append(varname)
 
         if fieldtype == 11:  # dateshort
@@ -132,6 +132,7 @@ class SearchForm(dynamicForm):
     def init(self):
         for fieldname in self.include_list:
             foundInAll = True
+            foundAllOptions = True
             type = None
             options = []
 
@@ -148,7 +149,10 @@ class SearchForm(dynamicForm):
                 if not found:
                     foundInAll = False
 
-            op = [(opt, opt) for opt in list(set(options))]
+            if not foundInAll:
+                op = [(opt, '%s &#xf0b0;' % opt) for opt in list(set(options))]
+            else:
+                op = [(opt, opt) for opt in list(set(options))]
             if len(op):
                 op.insert(0, ('', '---------'))
 
