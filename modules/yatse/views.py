@@ -11,13 +11,12 @@ from django.utils.translation import ugettext as _
 from django.utils.http import urlquote_plus
 from yatse.models import tickets_reports
 from yatse.forms import SearchForm, AddToBordForm
-from yatse.models import Server, boards
+from yatse.models import boards
 from yatse import get_version, get_python_version
 from yatse.shortcuts import clean_search_values, add_breadcrumbs, prettyValues
+from yatse.api import searchTickets
 
-from requests_futures.sessions import FuturesSession
 import datetime
-import dateutil.parser
 
 try:
     import json
@@ -36,8 +35,6 @@ def info(request):
 
 @login_required
 def table(request, **kwargs):
-    tic = []
-
     if 'search' in kwargs:
         is_search = True
         params = kwargs['search']
@@ -47,39 +44,7 @@ def table(request, **kwargs):
         params = {'closed': False}
         is_search = False
 
-    session = FuturesSession()
-    async_list = []
-    headers = {
-        'user-agent': 'yatse/0.0.1',
-        'api-key': settings.API_KEY,
-        'api-user': request.user.username
-    }
-    for Srv in Server.objects.all():
-        url = '%s/yatse/' % Srv.url
-        # , hooks={'response': do_something}
-        req = session.request('SEARCH', url, data=json.dumps(params), headers=headers)
-        setattr(req, 'serverName', Srv.name)
-        setattr(req, 'serverURL', Srv.url)
-        setattr(req, 'serverShortName', Srv.short)
-        async_list.append(req)
-
-    for req in async_list:
-        result = req.result()
-        try:
-            if result.status_code != 200:
-                messages.add_message(request, messages.ERROR, _(u'%s respoded width: %s' % (req.serverName, result.status_code)))
-
-            else:
-                data = json.loads(result.content)
-                for date in data:
-                    date['YATSServer'] = req.serverShortName
-                    date['YATSServerURL'] = req.serverURL
-                    date['c_date'] = dateutil.parser.parse(date['c_date'])
-                    #date['daedline'] = dateutil.parser.parse(date['daedline']) if date['daedline'] else None
-                tic = tic + data
-
-        except:
-            messages.add_message(request, messages.ERROR, _(u'YATS nicht erreichbar: %s' % req.serverName))
+    tic = searchTickets(request, params)
 
     pretty = prettyValues(params)
     list_caption = kwargs.get('list_caption')
@@ -225,8 +190,12 @@ def show_board(request, name):
             return HttpResponseRedirect('/')
 
     for column in columns:
-        query = get_ticket_model().objects.select_related('type', 'priority').all()
-        search_params, query = build_ticket_search(request, query, {}, column['query'])
+        params = column['query']
+        column['query'] = searchTickets(request, params)
+
+        # todo: limit, order by, days
+        """
+        search_params, query = build_ticket_search(request, query, {}, )
         column['query'] = query.order_by('%s%s' % (column.get('order_dir', ''), column.get('order_by', 'id')))
         if column['limit']:
             column['query'] = column['query'][:column['limit']]
@@ -239,9 +208,7 @@ def show_board(request, name):
                 column['query'] = column['query'].filter(u_date__gte=datetime.date.today() - datetime.timedelta(days=column['days']))
             if column['extra_filter'] == '4':  # days since last action
                 column['query'] = column['query'].filter(last_action_date__gte=datetime.date.today() - datetime.timedelta(days=column['days']))
-        if not request.user.is_staff:
-            column['query'] = column['query'].filter(customer=request.organisation)
-
+        """
     add_breadcrumbs(request, board.pk, '$')
     return render(request, 'board/view.html', {'columns': columns, 'board': board})
 
