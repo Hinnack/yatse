@@ -2,4 +2,3 @@
 - sort
 - search => mark if field in all avail.
 - save to report => csrf ERROR
-- pretty search values on list
