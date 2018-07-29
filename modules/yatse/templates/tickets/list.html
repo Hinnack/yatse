@@ -76,6 +76,7 @@
             <a href="#" class="btn" data-dismiss="modal">{% trans "cancel" %}</a>
             <input type="submit" value="{% trans "save" %}" class="btn btn-primary">
         </div>
+        {% csrf_token %}
         </form>
     </div>
 
@@ -95,6 +96,7 @@
             <a href="#" class="btn" data-dismiss="modal">{% trans "cancel" %}</a>
             <input type="submit" value="{% trans "save" %}" class="btn btn-primary">
         </div>
+        {% csrf_token %}
         </form>
     </div>
 
