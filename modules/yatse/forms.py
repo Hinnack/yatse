@@ -128,10 +128,28 @@ class SearchForm(dynamicForm):
 
         self.init()
 
+    def _fieldNameToTracName(self, field):
+        if field == 'c_date':
+            return 'time created'
+        if field == 'c_user':
+            return 'reporter'
+        if field == 'u_date':
+            return 'time changed'
+        if field == 'assigned':
+            return 'owner'
+        if field == 'caption':
+            return 'summary'
+        if field == 'state':
+            return 'status'
+
+        return field.replace('_', ' ')
+
+
     def init(self):
         for fieldname in self.include_list:
             foundInAll = True
             type = None
+            options = []
 
             for server in Server.objects.all():
                 found = False
@@ -140,13 +158,13 @@ class SearchForm(dynamicForm):
                     if fieldname in field['name']:
                         found = True
                         type = field['type']
-                        options = field.get('options', [])
-                        label = field['label']
+                        options = options + field.get('options', [])
+                        label = self._fieldNameToTracName(fieldname)
                         break
                 if not found:
                     foundInAll = False
 
-            op = [(opt, opt) for opt in options]
+            op = [(opt, opt) for opt in list(set(options))]
             if len(op):
                 op.insert(0, ('', '---------'))
 
