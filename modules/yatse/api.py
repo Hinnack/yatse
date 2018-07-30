@@ -2,9 +2,11 @@
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
+from django.utils.timezone import is_naive, make_aware
 from yatse.models import Server
 from requests_futures.sessions import FuturesSession
 import dateutil.parser
+import datetime
 
 try:
     import json
@@ -41,8 +43,19 @@ def searchTickets(request, params):
                     date['YATSServer'] = req.serverShortName
                     date['YATSServerURL'] = req.serverURL
                     date['c_date'] = dateutil.parser.parse(date['c_date'])
-                    # date['daedline'] = dateutil.parser.parse(date['daedline']) if date['daedline'] else None
+                    date['last_action_date'] = dateutil.parser.parse(date['last_action_date'])
+                    if is_naive(date['last_action_date']):
+                        date['last_action_date'] = make_aware(date['last_action_date'])
+                    if 'close_date' in date and date['close_date']:
+                        date['close_date'] = dateutil.parser.parse(date['close_date'])
                     date['is_late'] = 0
+                    if 'daedline' in date and date['daedline']:
+                        date['daedline'] = dateutil.parser.parse(date['daedline'])
+                        if date['daedline'] < datetime.date.today():
+                            date['is_late'] = 2
+                        if date['daedline'] < datetime.date.today() + datetime.timedelta(days=7):
+                            date['is_late'] = 1
+
                 tic = tic + data
 
         except:
