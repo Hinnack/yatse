@@ -45,6 +45,7 @@ def table(request, **kwargs):
         is_search = False
 
     tic = searchTickets(request, params)
+    tic = sorted(tic, key=lambda ticket: ticket['id'])
 
     pretty = prettyValues(params)
     list_caption = kwargs.get('list_caption')
@@ -192,13 +193,19 @@ def show_board(request, name):
     for column in columns:
         params = column['query']
         column['query'] = searchTickets(request, params)
-
-        # todo: limit, order by, days
-        """
-        search_params, query = build_ticket_search(request, query, {}, )
-        column['query'] = query.order_by('%s%s' % (column.get('order_dir', ''), column.get('order_by', 'id')))
         if column['limit']:
             column['query'] = column['query'][:column['limit']]
+
+        if column.get('order_by') == 'close_date':
+            for tic in column['query']:
+                if 'close_date' not in tic or not tic['close_date']:
+                    tic['close_date'] = datetime.datetime(2000, 1, 1)
+
+        column['query'] = sorted(column['query'], key=lambda ticket: ticket[column.get('order_by', 'id')], reverse=column.get('order_dir', '') == '-')
+
+        # todo: days
+        """
+        column['query'] = query.order_by('%s%s' % (column.get('order_dir', ''), column.get('order_by', 'id')))
         if 'extra_filter' in column and 'days' in column and column['extra_filter'] and column['days']:
             if column['extra_filter'] == '1':  # days since closed
                 column['query'] = column['query'].filter(close_date__gte=datetime.date.today() - datetime.timedelta(days=column['days'])).exclude(close_date=None)
