@@ -254,4 +254,4 @@ def reports(request):
 def redirectToTicket(request, serverID, ticketID):
     Srv = Server.objects.get(pk=serverID)
     add_breadcrumbs(request, '%s@%s' % (ticketID, serverID), '#', serverName=Srv.short)
-    return HttpResponseRedirect('%s/tickets/view/%s/' % (Srv.url, ticketID))
+    return HttpResponseRedirect('%s/tickets/view/%s/?YATSE=yes' % (Srv.url, ticketID))
