@@ -31,7 +31,7 @@
                         {% for ticket in column.query %}<article class="kanban-entry grab" id="item1">
                             <div class="kanban-entry-inner">
                                 <div class="kanban-label"{% if ticket.priority__color %} style="background-color:{{ ticket.priority__color }};"{% endif %}>
-                                    <h2><a href="{{ ticket.YATSServerURL }}/tickets/view/{{ ticket.id }}/">{{ ticket.YATSServer }} #{{ ticket.id }}</a> {{ ticket.caption }}</h2>
+                                    <h2><a href="/tickets/{{ ticket.serverID }}/{{ ticket.id }}/">{{ ticket.YATSServer }} #{{ ticket.id }}</a> {{ ticket.caption }}</h2>
                                     {% if ticket.deadline and not ticket.closed %}<small class="text-muted"{% if ticket.is_late == 2 %} style="color: red;"{% endif %}{% if ticket.is_late == 1 %} style="color: orange;"{% endif %}><i class="icon-time"></i> {{ ticket.deadline }}</small>{% endif %}
                                     {% if ticket.assigned__username %}<small class="text-muted"><i class="icon-user"></i> {{ ticket.assigned__username }}</small>{% endif %}
                                     {% if request.user.is_staff and ticket.customer__name and ticket.billing_estimated_time and ticket.customer__hourly_rate %}<small class="text-muted"><b>€</b> {{ ticket.customer__hourly_rate|multiply:ticket.billing_estimated_time|floatformat:"0" }}</small>{% endif %}

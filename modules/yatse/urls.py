@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
-from yatse.views import root, search, info, show_board, board_by_id, reports
+from yatse.views import root, search, info, show_board, board_by_id, reports, redirectToTicket
 
 urlpatterns = [
+   url(r'tickets/(?P<serverID>\d+)/(?P<ticketID>\d+)/$',
+       view=redirectToTicket,
+       name='redirectToTicket'),
+
    url(r'tickets/search/$',
        view=search,
        name='search'),

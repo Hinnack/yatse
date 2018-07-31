@@ -27,7 +27,7 @@ def searchTickets(request, params):
         # , hooks={'response': do_something}
         req = session.request('SEARCH', url, data=json.dumps(params), headers=headers)
         setattr(req, 'serverName', Srv.name)
-        setattr(req, 'serverURL', Srv.url)
+        setattr(req, 'serverID', Srv.id)
         setattr(req, 'serverShortName', Srv.short)
         async_list.append(req)
 
@@ -41,7 +41,7 @@ def searchTickets(request, params):
                 data = json.loads(result.content)
                 for date in data:
                     date['YATSServer'] = req.serverShortName
-                    date['YATSServerURL'] = req.serverURL
+                    date['serverID'] = req.serverID
                     date['c_date'] = dateutil.parser.parse(date['c_date'])
                     date['last_action_date'] = dateutil.parser.parse(date['last_action_date'])
                     if is_naive(date['last_action_date']):

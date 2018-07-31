@@ -11,7 +11,7 @@ from django.utils.translation import ugettext as _
 from django.utils.http import urlquote_plus
 from yatse.models import tickets_reports
 from yatse.forms import SearchForm, AddToBordForm
-from yatse.models import boards
+from yatse.models import boards, Server
 from yatse import get_version, get_python_version
 from yatse.shortcuts import clean_search_values, add_breadcrumbs, prettyValues
 from yatse.api import searchTickets
@@ -250,3 +250,8 @@ def reports(request):
         rep_lines = paginator.page(paginator.num_pages)
 
     return render(request, 'tickets/reports.html', {'lines': rep_lines})
+
+def redirectToTicket(request, serverID, ticketID):
+    Srv = Server.objects.get(pk=serverID)
+    add_breadcrumbs(request, '%s@%s' % (ticketID, serverID), '#', serverName=Srv.short)
+    return HttpResponseRedirect('%s/tickets/view/%s/' % (Srv.url, ticketID))

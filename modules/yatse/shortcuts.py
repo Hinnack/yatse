@@ -11,17 +11,25 @@ def clean_search_values(search):
             result[ele] = search[ele]
     return result
 
-def add_breadcrumbs(request, pk, typ):
+def add_breadcrumbs(request, pk, typ, serverName=None):
     breadcrumbs = request.session.get('breadcrumbs', [])
     # checks if already exists
     if len(breadcrumbs) > 0:
-        if breadcrumbs[-1][0] != long(pk) or breadcrumbs[-1][1] != typ:
-            if (long(pk), typ,) in breadcrumbs:
-                breadcrumbs.pop(breadcrumbs.index((long(pk), typ,)))
-            breadcrumbs.append((long(pk), typ,))
+        if breadcrumbs[-1][0] != pk or breadcrumbs[-1][1] != typ:
+            if (pk, typ,) in breadcrumbs:
+                breadcrumbs.pop(breadcrumbs.index((pk, typ,)))
+            if typ == '#':
+                server, ticket = pk.split('@')
+                breadcrumbs.append((pk, typ, server, ticket, serverName, ))
+            else:
+                breadcrumbs.append((pk, typ,))
 
     else:
-        breadcrumbs.append((long(pk), typ,))
+        if typ == '#':
+            server, ticket = pk.split('@')
+            breadcrumbs.append((pk, typ, server, ticket, serverName, ))
+        else:
+            breadcrumbs.append((pk, typ,))
     while len(breadcrumbs) > 10:
         breadcrumbs.pop(0)
     request.session['breadcrumbs'] = breadcrumbs
