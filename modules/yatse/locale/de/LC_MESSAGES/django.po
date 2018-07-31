@@ -1,0 +1,267 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-31 18:01+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/401.html:7
+msgid "not authenticated"
+msgstr "nicht angemeldet"
+
+#: templates/404.html:7
+msgid "not found"
+msgstr "nicht gefunden"
+
+#: templates/500.html:7
+msgid "System Error"
+msgstr "Systemfehler"
+
+#: templates/base.html:34
+msgid "Reports"
+msgstr "Berichte"
+
+#: templates/base.html:36
+msgid "Boards"
+msgstr "Boards"
+
+#: templates/base.html:38
+msgid "add new board"
+msgstr "neues Board hinzufügen"
+
+#: templates/base.html:45
+msgid "Search"
+msgstr "Suchen"
+
+#: templates/base.html:46
+msgid "New"
+msgstr "Neu"
+
+#: templates/base.html:47
+msgid "Workflow"
+msgstr "Workflow"
+
+#: templates/base.html:48
+msgid "Info"
+msgstr "Info"
+
+#: templates/base.html:53
+msgid "logged in as"
+msgstr "angemeldet als"
+
+#: templates/base.html:101
+msgid "change password"
+msgstr "Passwort ändern"
+
+#: templates/base.html:107 templates/registration/login.html:23
+msgid "Password"
+msgstr "Passwort"
+
+#: templates/base.html:108
+msgid "Validate password"
+msgstr "Passwort erneut eingeben"
+
+#: templates/base.html:113 templates/base.html:139
+#: templates/tickets/list.html:76 templates/tickets/list.html:96
+#: templates/tickets/reports.html:47
+msgid "cancel"
+msgstr "abbrechen"
+
+#: templates/base.html:114
+msgid "change"
+msgstr "ändern"
+
+#: templates/base.html:123
+msgid "new board"
+msgstr "neues Board"
+
+#: templates/base.html:129
+msgid "board name"
+msgstr "Board Name"
+
+#: templates/base.html:140 templates/tickets/list.html:77
+#: templates/tickets/list.html:97
+msgid "save"
+msgstr "speichern"
+
+#: templates/board/view.html:6 templates/board/view.html:16
+msgid "board"
+msgstr "Board"
+
+#: templates/board/view.html:18
+msgid "add new columns by adding a search result to this board"
+msgstr ""
+"füge neue Spalten hinzu, indem du ein Suchgerbnis zu diesem Board hinzufügst"
+
+#: templates/board/view.html:67
+msgid "Do you really want to delete this column?"
+msgstr "Willst du wirklich diese Spalte löschen?"
+
+#: templates/board/view.html:72
+msgid "Do you really want to delete this board?"
+msgstr "Willst du wirkliche dieses Board löschen?"
+
+#: templates/home.html:11
+msgid "dashboard"
+msgstr "Dashboard"
+
+#: templates/info.html:6 templates/info.html:10
+msgid "system info"
+msgstr "Systeminfo"
+
+#: templates/info.html:19
+msgid "Python"
+msgstr ""
+
+#: templates/info.html:23
+msgid "Django"
+msgstr ""
+
+#: templates/info.html:27
+msgid "user-agent"
+msgstr "User-Agent"
+
+#: templates/info.html:31
+msgid "server"
+msgstr "Server"
+
+#: templates/info.html:35
+msgid "host"
+msgstr "Host"
+
+#: templates/info.html:39
+msgid "user"
+msgstr "Benutzer"
+
+#: templates/registration/login.html:10 templates/registration/login.html:31
+msgid "Login"
+msgstr ""
+
+#: templates/registration/login.html:13
+msgid "Your user and password didn't match. Please try again."
+msgstr ""
+"Dein Benutzername und Passwort passten nicht zusammen. Bitte versuche es "
+"erneut."
+
+#: templates/registration/login.html:20
+msgid "User"
+msgstr ""
+
+#: templates/tickets/list.html:6
+msgid "ticket list"
+msgstr "Ticket Liste"
+
+#: templates/tickets/list.html:11
+msgid "search results for tickets"
+msgstr "Suchergebnis für Tickets"
+
+#: templates/tickets/list.html:11
+msgid "new search"
+msgstr "neue Suche"
+
+#: templates/tickets/list.html:11
+msgid "save search"
+msgstr ""
+
+#: templates/tickets/list.html:11 templates/tickets/list.html:87
+msgid "save to board"
+msgstr "Zu Board hinzufügen"
+
+#: templates/tickets/list.html:11
+msgid "tickets"
+msgstr "Tickets"
+
+#: templates/tickets/list.html:12 templates/tickets/reports.html:21
+#: templates/tickets/reports.html:26
+msgid "report"
+msgstr "Bericht"
+
+#: templates/tickets/list.html:16 templates/tickets/reports.html:16
+msgid "of"
+msgstr "von"
+
+#: templates/tickets/list.html:21 templates/tickets/list.html:26
+#: templates/tickets/list.html:33 templates/tickets/list.html:38
+msgid "state"
+msgstr "Status"
+
+#: templates/tickets/list.html:23 templates/tickets/list.html:35
+msgid "ticket#"
+msgstr "Ticket#"
+
+#: templates/tickets/list.html:24 templates/tickets/list.html:36
+msgid "created"
+msgstr "erstellt"
+
+#: templates/tickets/list.html:25 templates/tickets/list.html:37
+msgid "type"
+msgstr "Art"
+
+#: templates/tickets/list.html:27 templates/tickets/list.html:39
+msgid "assigned"
+msgstr "zugeordnet zu"
+
+#: templates/tickets/list.html:28 templates/tickets/list.html:40
+msgid "caption"
+msgstr "Betreff"
+
+#: templates/tickets/list.html:49
+msgid "no tickets found!"
+msgstr "keine Tickets gefunden!"
+
+#: templates/tickets/list.html:52
+msgid "You searched for:"
+msgstr "Dein Suchergebnis für:"
+
+#: templates/tickets/list.html:60
+msgid "save as report"
+msgstr "Als Bericht speichern"
+
+#: templates/tickets/list.html:66
+msgid "report name"
+msgstr "Berichtsname"
+
+#: templates/tickets/reports.html:6 templates/tickets/reports.html:11
+msgid "reports"
+msgstr "Berichte"
+
+#: templates/tickets/reports.html:35
+msgid "no reports found!"
+msgstr "kein Bericht gefunden!"
+
+#: templates/tickets/reports.html:41
+msgid "delete report"
+msgstr "Bericht löschen"
+
+#: templates/tickets/reports.html:44
+msgid "Do you really want to delete this report?"
+msgstr "Willst du wirklich diesen Bericht löschen?"
+
+#: templates/tickets/reports.html:48
+msgid "delete"
+msgstr "lsöchen"
+
+#: templates/tickets/search.html:6
+msgid "search tickets"
+msgstr "Tickets suchen"
+
+#: templates/tickets/search.html:15
+msgid "search for tickets"
+msgstr "nach Tickets suchen"
+
+#: templates/tickets/search.html:24 templates/tickets/search.html:27
+msgid "search"
+msgstr "suchen"
