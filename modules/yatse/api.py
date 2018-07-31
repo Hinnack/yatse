@@ -32,8 +32,8 @@ def searchTickets(request, params):
         async_list.append(req)
 
     for req in async_list:
-        result = req.result()
         try:
+            result = req.result()
             if result.status_code != 200:
                 messages.add_message(request, messages.ERROR, _(u'%s respoded width: %s' % (req.serverName, result.status_code)))
 
