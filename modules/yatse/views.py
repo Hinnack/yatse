@@ -192,6 +192,10 @@ def show_board(request, name):
 
     for column in columns:
         params = column['query']
+        if column['extra_filter'] and column['days']:
+            params['extra_filter'] = column['extra_filter']
+            params['days'] = column['days']
+
         column['query'] = searchTickets(request, params)
         if column['limit']:
             column['query'] = column['query'][:column['limit']]
@@ -203,19 +207,6 @@ def show_board(request, name):
 
         column['query'] = sorted(column['query'], key=lambda ticket: ticket[column.get('order_by', 'id')], reverse=column.get('order_dir', '') == '-')
 
-        # todo: days
-        """
-        column['query'] = query.order_by('%s%s' % (column.get('order_dir', ''), column.get('order_by', 'id')))
-        if 'extra_filter' in column and 'days' in column and column['extra_filter'] and column['days']:
-            if column['extra_filter'] == '1':  # days since closed
-                column['query'] = column['query'].filter(close_date__gte=datetime.date.today() - datetime.timedelta(days=column['days'])).exclude(close_date=None)
-            if column['extra_filter'] == '2':  # days since created
-                column['query'] = column['query'].filter(c_date__gte=datetime.date.today() - datetime.timedelta(days=column['days']))
-            if column['extra_filter'] == '3':  # days since last changed
-                column['query'] = column['query'].filter(u_date__gte=datetime.date.today() - datetime.timedelta(days=column['days']))
-            if column['extra_filter'] == '4':  # days since last action
-                column['query'] = column['query'].filter(last_action_date__gte=datetime.date.today() - datetime.timedelta(days=column['days']))
-        """
     add_breadcrumbs(request, board.pk, '$')
     return render(request, 'board/view.html', {'columns': columns, 'board': board})
 

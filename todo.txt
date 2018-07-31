@@ -1,2 +1,1 @@
 - search => mark if field in all avail. => https://stackoverflow.com/questions/36743041/font-awesome-icon-in-select-option
-- board days
