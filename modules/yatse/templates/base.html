@@ -57,7 +57,7 @@
             {% endif %}
         </div>
         {% if request.user.is_authenticated %}
-        <p class="navbar-text pull-right">{% trans "logged in as" %}: <a data-toggle="modal" href="#pwdDlg">{{ request.user }}@{{ request.organisation.name }}</a>&nbsp;&nbsp;</p>
+        <p class="navbar-text pull-right">{% trans "logged in as" %}: <a data-toggle="modal" href="#pwdDlg">{{ request.user }}</a>&nbsp;&nbsp;</p>
         {% endif %}
     </div>
 </div>
