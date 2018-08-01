@@ -32,7 +32,7 @@
                 <tr>
                 	<td data-title="{% trans "state" %}"><button type="button" class="btn {% if line.closed %}btn-danger{% else %}btn-success{% endif %}" disabled></td>
                     <td>{% if line.deadline %}<i class="icon-time"></i>{% endif %}</td>
-                    <td data-title="{% trans "ticket#" %}"><a href="/tickets/{{ line.serverID }}/{{ line.id }}/">{{ line.YATSServer }} #{{ line.id }}</a></td>
+                    <td data-title="{% trans "ticket#" %}"><a href="/tickets/{{ line.serverID }}/{{ line.id }}/">{{ line.YATSServer }}&nbsp;#{{ line.id }}</a></td>
                     <td data-title="{% trans "created" %}">{{ line.c_date }}</td>
                     <td data-title="{% trans "type" %}">{{ line.type__name }}</td>
                     <td data-title="{% trans "state" %}">{{ line.state__name }}</td>
