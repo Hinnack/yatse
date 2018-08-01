@@ -1,4 +1,4 @@
-# yatse
+# YATSE
 
 [![license](https://img.shields.io/github/license/mediafactory/yats.svg)]()
 [![GitHub issues](https://img.shields.io/github/issues/mediafactory/yats.svg)]()
