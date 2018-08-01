@@ -25,7 +25,8 @@ except ImportError:
 
 @login_required
 def root(request):
-    return render(request, "home.html", {})
+    return table(request)
+    #return render(request, "home.html", {})
 
 @login_required
 def info(request):
