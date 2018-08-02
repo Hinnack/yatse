@@ -48,11 +48,12 @@
                     <ul class="dropdown-menu">
                     {% server_list %}
                     {% for svr in server %}
-                        <li><a href="{{ svr.url }}/tickets/new/">{{svr.name }}</a></li>
+                        <li><a href="{{ svr.url }}/tickets/create/">{{svr.name }}</a></li>
                     {% endfor %}
                     </ul>
                 </li>
                 <li><a href="/info/" class="">{% trans "Info" %}</a></li>
+                {% if request.user.is_staff %}<li><a href="/admin/" class="">{% trans "Admin" %}</a></li>{% endif %}
             </ul>
             {% endif %}
         </div>
