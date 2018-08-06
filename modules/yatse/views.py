@@ -138,7 +138,7 @@ def show_board(request, name):
                            'order_by': cd['order_by'],
                            'order_dir': cd['order_dir']
                            }
-                    if cd.get('extra_filter') and cd.get('days'):
+                    if cd.get('extra_filter') and cd.get('days') is not None:
                         col['extra_filter'] = cd['extra_filter']
                         col['days'] = cd['days']
                     columns.append(col)
