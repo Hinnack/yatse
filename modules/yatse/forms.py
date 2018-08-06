@@ -24,6 +24,7 @@ POST_FILTER_CHOICES = (
     (2, _('days since created')),
     (3, _('days since last changed')),
     (4, _('days since last action')),
+    (5, _('days since falling due')),
 )
 
 class AddToBordForm(forms.Form):
