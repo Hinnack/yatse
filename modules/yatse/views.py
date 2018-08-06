@@ -193,7 +193,7 @@ def show_board(request, name):
 
     for column in columns:
         params = column['query']
-        if 'extra_filter' in column and column['extra_filter'] and 'days' in column and column['days']:
+        if 'extra_filter' in column and column['extra_filter'] and 'days' in column:
             params['extra_filter'] = column['extra_filter']
             params['days'] = column['days']
 
