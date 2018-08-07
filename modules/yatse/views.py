@@ -141,7 +141,7 @@ def show_board(request, name):
                     if cd.get('extra_filter') and cd.get('days') is not None:
                         col['extra_filter'] = cd['extra_filter']
                         col['days'] = cd['days']
-                    if cd.get['exclude_own']:
+                    if cd.get('exclude_own'):
                         col['exclude_own'] = cd['exclude_own']
                     columns.append(col)
                     board.columns = json.dumps(columns, cls=DjangoJSONEncoder)
