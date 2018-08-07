@@ -122,10 +122,13 @@ TEMPLATES = [
 ]
 
 MIDDLEWARE_CLASSES = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #'yatse.middleware.header.ResponseInjectHeader',
     #'yatse.middleware.auth.BasicAuthMiddleware',
     #'yatse.middleware.error.ErrorCaptureMiddleware',
@@ -143,6 +146,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.humanize',
     'yatse',
     'bootstrap_toolkit',
     'simple_sso.sso_server',
