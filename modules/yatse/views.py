@@ -141,6 +141,8 @@ def show_board(request, name):
                     if cd.get('extra_filter') and cd.get('days') is not None:
                         col['extra_filter'] = cd['extra_filter']
                         col['days'] = cd['days']
+                    if cd.get['exclude_own']:
+                        col['exclude_own'] = cd['exclude_own']
                     columns.append(col)
                     board.columns = json.dumps(columns, cls=DjangoJSONEncoder)
                     board.save(user=request.user)
@@ -196,6 +198,8 @@ def show_board(request, name):
         if 'extra_filter' in column and column['extra_filter'] and 'days' in column:
             params['extra_filter'] = column['extra_filter']
             params['days'] = column['days']
+        if 'exclude_own' in column:
+            params['exclude_own'] = column['exclude_own']
 
         column['query'] = searchTickets(request, params)
         if column['limit']:

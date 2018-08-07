@@ -36,6 +36,8 @@ class AddToBordForm(forms.Form):
     days = forms.IntegerField(label=_('days'), required=False)
     order_by = forms.ChoiceField(choices=ORDER_BY_CHOICES, label=_('order by'))
     order_dir = forms.ChoiceField(choices=ORDER_DIR_CHOICES, label=_('order direction'), required=False)
+    exclude_own = forms.BooleanField(label=_('exclude own'), required=False)
+
 
 class dynamicForm(forms.Form):
     """
