@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.conf import settings
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -17,6 +17,7 @@ from yatse.shortcuts import clean_search_values, add_breadcrumbs, prettyValues
 from yatse.api import searchTickets
 
 import datetime
+import requests
 
 try:
     import json
@@ -247,7 +248,27 @@ def reports(request):
 
     return render(request, 'tickets/reports.html', {'lines': rep_lines})
 
+@login_required
 def redirectToTicket(request, serverID, ticketID):
     Srv = Server.objects.get(pk=serverID)
     add_breadcrumbs(request, '%s@%s' % (ticketID, serverID), '#', serverName=Srv.short)
     return HttpResponseRedirect('%s/tickets/view/%s/?YATSE=yes' % (Srv.url, ticketID))
+
+@login_required
+def api(request, serverID, ticketID):
+    data = {
+        'ticket': int(ticketID),
+        'method': 'notify',
+    }
+    Srv = Server.objects.get(pk=serverID)
+    headers = {
+        'user-agent': 'yatse/0.0.1',
+        'api-key': settings.API_KEY,
+        'api-user': request.user.username
+    }
+    url = '%s/yatse/' % Srv.url
+    r = requests.request('PROPPATCH', url, headers=headers, data=json.dumps(data))
+    if r.status_code == 200:
+        return HttpResponse('ok')
+    else:
+        raise Exception(r)
