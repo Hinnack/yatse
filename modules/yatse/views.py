@@ -222,6 +222,14 @@ def board_by_id(request, id):
     return show_board(request, board.name)
 
 @login_required
+def next_board(request):
+    board = boards.objects.filter(active_record=True, c_user=request.user).first()
+    if board:
+        return show_board(request, board.name)
+    else:
+        return root(request)
+
+@login_required
 def reports(request):
     if 'report' in request.GET:
         rep = tickets_reports.objects.get(pk=request.GET['report'])

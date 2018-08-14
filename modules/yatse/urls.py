@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
-from yatse.views import root, search, info, show_board, board_by_id, reports, redirectToTicket, api
+from yatse.views import root, search, info, show_board, board_by_id, next_board, reports, redirectToTicket, api
 
 urlpatterns = [
    url(r'tickets/(?P<serverID>\d+)/(?P<ticketID>\d+)/$',
@@ -35,6 +35,9 @@ urlpatterns = [
 
    url(r'^board/(?P<name>[\w|\W]+)/$',
        view=show_board,
-       name='board'),
+       name='board_by_name'),
 
+   url(r'^board/$',
+       view=next_board,
+       name='next_board'),
 ]
