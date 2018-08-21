@@ -42,6 +42,15 @@
                     {% endfor %}
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Kanban" %}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    {% server_list %}
+                    {% for svr in server %}
+                        <li><a href="{{ svr.url }}/kanban/">{{svr.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </li>
                 <li><a href="/tickets/search/" class="">{% trans "Search" %}</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "New" %}<b class="caret"></b></a>
